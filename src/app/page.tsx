@@ -1,3 +1,6 @@
+'use client'
+
+
 import { Header } from "@/components/Header";
 import Image from "next/image";
 import { CalendarIcon } from "../../public/icons/CalendarIcon";
@@ -6,8 +9,30 @@ import { CambioIcon } from "../../public/icons/CambioIcon";
 import Link from "next/link";
 import { WhatsappIcon } from "../../public/icons/WhatsappIcon";
 import { Footer } from "@/components/Footer";
+import { useEffect, useState } from "react";
+import { Vehicle } from "@/Entities/Vehicle";
+import { api } from "@/utils/api";
+import { NumberFormatBase, NumericFormat } from 'react-number-format'
 
 export default function Home() {
+
+
+    const [inputValue, setInputValue] = useState(0);
+    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        setIsLoading(true);
+        api.get("/vehicles").then(({ data }) => {
+            setVehicles(data.data);
+            setIsLoading(false);
+        })
+    }, []);
+
+    if(isLoading){
+        return <div>Loading</div>
+    }
+
   return (
     <div>
         <Header />
@@ -17,12 +42,25 @@ export default function Home() {
 
             <div className="w-full p-8 bg-gray-100 mt-8">
                 <h4 className="font-bold text-zinc-700">Selecione um veículo que deseja simular o financiamento</h4>
+
+                    <NumericFormat
+                        className="w-full lg:w-1/3 mt-4 p-2 border border-zinc-300 bg-white rounded-lg"
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        prefix="R$ "
+                        placeholder="Valor de entrada do financiamento"
+                        allowNegative={false}
+                        value={inputValue}
+                        onValueChange={({ floatValue }) => setInputValue(floatValue || 0)}
+                        decimalScale={2}
+                    />
+
                 <div className="mt-4 flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
                     <select className="w-full lg:w-2/5 p-4 border border-zinc-300 bg-white rounded-lg" name="" id="">
-                        <option value="">Selecione</option>
-                        <option value="">Carro 1</option>
-                        <option value="">Carro 2</option>
-                        <option value="">Carro 3</option>
+
+                        {vehicles.map((vehicle) => (
+                            <option key={vehicle.id} value={vehicle.id}>{vehicle.make} {vehicle.model}</option>
+                        ))}
                     </select>
 
                     <button className="w-full lg:w-1/5 p-3 bg-violet-600 hover:bg-violet-700 transition-all font-bold text-white rounded-2xl">Simular</button>
