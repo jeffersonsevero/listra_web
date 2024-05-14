@@ -5,12 +5,13 @@ import { KmIcon } from "../../public/icons/KmIcon";
 import { CambioIcon } from "../../public/icons/CambioIcon";
 import Link from "next/link";
 import { WhatsappIcon } from "../../public/icons/WhatsappIcon";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
     <div>
         <Header />
-        <main className="mt-14 px-6">
+        <main className="mt-14 px-6 pb-60">
             <h2 className="text-lg lg:text-2xl text-zinc-700 font-bold">Simulação de Financiamento</h2>
             <div className="hidden lg:block w-14 h-[3px] bg-violet-600 rounded-lg mt-2"></div>
 
@@ -29,7 +30,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="w-full grid grid-cols-1 lg:grid-cols-10 gap-4 mt-20 h-[350px]">
+            <div className="w-full grid grid-cols-1 lg:grid-cols-10 gap-4 mt-20 ">
                 <div className="  rounded-lg bg-gray-100 border-zinc-300 lg:col-span-3">
                     <div className="flex flex-col">
                         <div className="h-[200px] flex justify-center items-center border-b border-b-zinc-300">
@@ -108,6 +109,7 @@ export default function Home() {
 
 
         </main>
+
     </div>
   );
 }
