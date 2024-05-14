@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Financiamento de veículos Listra
 
-First, run the development server:
+Projeto front end para simulação de parcelamento de veículos da empresa Listra
+
+
+![Logo](https://ik.imagekit.io/lrrw3mrhils/320shots_so_zJ400VPgX.png?updatedAt=1715713934370)
+
+
+## Funcionalidades
+
+- Seleção de veículos
+- Simulação de valores por veículo
+
+## Stack utilizada
+
+**Front-end:** ReactJS, NextJS,TailwindCSS
+
+
+
+## Rodando localmente
+
+Clone o projeto
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/jeffersonsevero/listra_web.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Entre no diretório do projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+  cd listra_web
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+Crie um arquivo .env.local na raiz do projeto com a url base da api do projeto
+```env
+NEXT_PUBLIC_API_URL=http://localhost:2222/api
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+O exemplo acima está considerando a api rodando na porta 2222. Altere de acordo com a sua configuração de api
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+Instale as dependências
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+  npm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+
+
+Inicie o servidor
+
+```bash
+  npm run dev
+```
+
+
+## Licença
+
+[MIT](https://choosealicense.com/licenses/mit/)
