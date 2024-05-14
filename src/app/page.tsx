@@ -9,29 +9,35 @@ import { CambioIcon } from "../../public/icons/CambioIcon";
 import Link from "next/link";
 import { WhatsappIcon } from "../../public/icons/WhatsappIcon";
 import { Footer } from "@/components/Footer";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Vehicle } from "@/Entities/Vehicle";
 import { api } from "@/utils/api";
 import { NumberFormatBase, NumericFormat } from 'react-number-format'
+import { formatCurrency } from "@/utils/formatCurrency";
+import { Spinner } from "@/components/Spinner";
+import { sleep } from "@/utils/sleep";
+import toast, { Toaster } from "react-hot-toast";
+import { useHome } from "./hooks/useHome";
+
+
+
+
 
 export default function Home() {
 
+    const {inputValue,
+        setInputValue,
+        vehicles,
+        setSelectedVehicle,
+        handleSimulateVehicle,
+        selectedVehicle,
+        installments
 
-    const [inputValue, setInputValue] = useState(0);
-    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    } = useHome();
 
-    useEffect(() => {
-        setIsLoading(true);
-        api.get("/vehicles").then(({ data }) => {
-            setVehicles(data.data);
-            setIsLoading(false);
-        })
-    }, []);
 
-    if(isLoading){
-        return <div>Loading</div>
-    }
+
+
 
   return (
     <div>
@@ -55,15 +61,18 @@ export default function Home() {
                         decimalScale={2}
                     />
 
-                <div className="mt-4 flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
-                    <select className="w-full lg:w-2/5 p-4 border border-zinc-300 bg-white rounded-lg" name="" id="">
+
+                <div  className="mt-4 flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4">
+                    <select onChange={(e) => setSelectedVehicle(vehicles.find((vehicle) => vehicle.id === e.target.value))} className="w-full lg:w-2/5 p-4 border border-zinc-300 bg-white rounded-lg" name="" id="">
 
                         {vehicles.map((vehicle) => (
                             <option key={vehicle.id} value={vehicle.id}>{vehicle.make} {vehicle.model}</option>
                         ))}
                     </select>
 
-                    <button className="w-full lg:w-1/5 p-3 bg-violet-600 hover:bg-violet-700 transition-all font-bold text-white rounded-2xl">Simular</button>
+                    <button  onClick={handleSimulateVehicle} className="w-full lg:w-1/5 p-3 bg-violet-600 hover:bg-violet-700 transition-all font-bold text-white rounded-2xl">
+                        Simular
+                    </button>
 
                 </div>
             </div>
@@ -76,49 +85,56 @@ export default function Home() {
                                 alt="Carro"
                                 width={200}
                                 height={200}
-                                src="https://storage.googleapis.com/golden-wind/ignite/react-native/thumbnails/3.png"
+                                src={selectedVehicle?.image!}
+                                className="transition-all"
                             />
                         </div>
                         <div className=" p-4">
-                            <h4 className="text-zinc-700 font-bold">Volkswagen T-Cross</h4>
-                            <p className="text-zinc-500 text-sm">1.0 200 TSI Total Flex Comfortline</p>
+                            <h4 className="text-zinc-700 font-bold"> {selectedVehicle?.make} {selectedVehicle?.model} </h4>
+                            <p className="text-zinc-500 text-sm"> {selectedVehicle?.description} </p>
                             <div className="mt-4 text-zinc-500 flex justify-between">
                                 <div className="flex items-center gap-2">
                                     <CalendarIcon />
-                                    <span>2020</span>
+                                    <span> {selectedVehicle?.year} </span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <KmIcon />
-                                    <span>15.850 Km</span>
+                                    <span>{selectedVehicle?.mileage} Km</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <CambioIcon />
-                                    <span>Automático</span>
+                                    <span> {selectedVehicle?.type_of_exchange} </span>
                                 </div>
 
                             </div>
+
+                            <h2 className="text-2xl text-zinc-600 font-bold  mt-4">
+                                {formatCurrency(selectedVehicle?.price || 0)}
+                            </h2>
                         </div>
                     </div>
                 </div>
                 <div className="rounded-lg bg-gray-100 border-zinc-300 text-zinc-700 lg:col-span-7 p-4 lg:p-8">
+
+
                     <h3 className="text-xl font-bold hidden lg:block">Valores simulados para você</h3>
                     <div className="hidden lg:block w-14 h-[3px] bg-violet-600 rounded-lg mt-2"></div>
 
                     <div className="w-full lg:w-5/12 bg-white p-4 rounded-md shadow-md mt-5">
                         <p className="font-bold">6X</p>
-                        <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                        {installments?.first_installment && <p className="text-xl font-bold text-violet-600"> R$ { installments?.first_installment }</p>}
                     </div>
 
                     <div className="grid w-full lg:w-5/12 grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
 
                         <div className="w-full bg-white p-4 rounded-md shadow-md">
                             <p className="font-bold">12X</p>
-                            <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                            {installments?.second_installment && <p className="text-xl font-bold text-violet-600"> R$ { installments?.second_installment }</p>}
                         </div>
 
                         <div className="w-full bg-white p-4 rounded-md shadow-md">
                             <p className="font-bold">48X</p>
-                            <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                            {installments?.third_installment && <p className="text-xl font-bold text-violet-600"> R$ { installments?.third_installment }</p>}
                         </div>
 
 
@@ -136,7 +152,7 @@ export default function Home() {
                         </div>
 
                         <div className="flex justify-center mt-4 lg:mt-0">
-                            <span className="font-bold">(31) 99999-9999</span>
+                            <span className="font-bold"> {selectedVehicle?.phone} </span>
                         </div>
 
                     </div>
@@ -147,6 +163,7 @@ export default function Home() {
 
 
         </main>
+        <Toaster />
 
     </div>
   );
