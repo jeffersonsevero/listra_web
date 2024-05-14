@@ -3,6 +3,8 @@ import Image from "next/image";
 import { CalendarIcon } from "../../public/icons/CalendarIcon";
 import { KmIcon } from "../../public/icons/KmIcon";
 import { CambioIcon } from "../../public/icons/CambioIcon";
+import Link from "next/link";
+import { WhatsappIcon } from "../../public/icons/WhatsappIcon";
 
 export default function Home() {
   return (
@@ -59,7 +61,48 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                <div className=" rounded-lg bg-gray-100 border-zinc-300 lg:col-span-7">...</div>
+                <div className="rounded-lg bg-gray-100 border-zinc-300 text-zinc-700 lg:col-span-7 p-4 lg:p-8">
+                    <h3 className="text-xl font-bold hidden lg:block">Valores simulados para você</h3>
+                    <div className="hidden lg:block w-14 h-[3px] bg-violet-600 rounded-lg mt-2"></div>
+
+                    <div className="w-full lg:w-5/12 bg-white p-4 rounded-md shadow-md mt-5">
+                        <p className="font-bold">6X</p>
+                        <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                    </div>
+
+                    <div className="grid w-full lg:w-5/12 grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+
+                        <div className="w-full bg-white p-4 rounded-md shadow-md">
+                            <p className="font-bold">12X</p>
+                            <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                        </div>
+
+                        <div className="w-full bg-white p-4 rounded-md shadow-md">
+                            <p className="font-bold">48X</p>
+                            <p className="text-xl font-bold text-violet-600">R$ 6.000,00</p>
+                        </div>
+
+
+                    </div>
+
+                    <div className="w-full lg:w-6/12  mt-4 lg:flex gap-2 items-center">
+                        <div>
+                            <Link
+                                className="p-2 bg-green-500 hover:bg-green-600 transition-all  flex text-white rounded-2xl  justify-center items-center gap-2 font-bold"
+                                href={"/"}
+                            >
+                                <WhatsappIcon />
+                                Falar com consultor
+                            </Link>
+                        </div>
+
+                        <div className="flex justify-center mt-4 lg:mt-0">
+                            <span className="font-bold">(31) 99999-9999</span>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
