@@ -8,14 +8,8 @@ import { KmIcon } from "../../public/icons/KmIcon";
 import { CambioIcon } from "../../public/icons/CambioIcon";
 import Link from "next/link";
 import { WhatsappIcon } from "../../public/icons/WhatsappIcon";
-import { Footer } from "@/components/Footer";
-import { Suspense, useEffect, useState } from "react";
-import { Vehicle } from "@/Entities/Vehicle";
-import { api } from "@/utils/api";
 import { NumberFormatBase, NumericFormat } from 'react-number-format'
 import { formatCurrency } from "@/utils/formatCurrency";
-import { Spinner } from "@/components/Spinner";
-import { sleep } from "@/utils/sleep";
 import toast, { Toaster } from "react-hot-toast";
 import { useHome } from "./hooks/useHome";
 
