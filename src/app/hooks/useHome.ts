@@ -29,7 +29,7 @@ export function useHome(){
             return;
         }
 
-        api.post(`/vehicles/${selectedVehicle.id}`, {
+        api.post(`/vehicles/${selectedVehicle.id}/simulate`, {
             input_value: inputValue
         }).then(({ data }) => {
             setInstallments(data);
